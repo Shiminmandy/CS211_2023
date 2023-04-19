@@ -54,16 +54,41 @@ void accessData (
 
     // Otherwise, record a cache miss
     /* ... */
-
+    if (curr_line==NULL)
+    {
+        (*miss_count)++;
+        
+    }
+    
     // If cache is full, evict oldest line due to FIFO cache replacement policy
     if ( cache->occupancy == E ) {
         // dequeue from front of FIFO, update occupancy, and record an eviction
         /* ... */
+        cache_line_t* temp_line = cache->front; // this is important we have to free the memory when we want to dequeue
+        cache->front = cache->front->next_cache_line; //front node dequeued
+        cache->occupancy --;
+        (*eviction_count)++;
+        free(temp_line); //if we don't free dequeued node we will have memory leak
     }
 
     // Due to cache miss, enqueue cache line, and update occupancy
     /* ... */
-
+    cache_line_t* make_line = (cache_line_t*) malloc(sizeof(cache_line_t)); //we first make a node
+    make_line->tag=tag;
+    make_line->next_cache_line=NULL;
+    // if no node in queue, which means occupancy=0, then we let new node queal the cache front
+    if (cache->occupancy == 0)
+    {
+        cache->front = make_line;
+        cache->back = make_line;
+    }else{
+        // if other nodes in queue, new node is the back
+        cache-> back->next_cache_line = make_line;
+        cache->back = make_line;
+    }
+    cache->occupancy++;
+    
+    
 }
 
 int main(int argc, char* argv[]) {
@@ -115,6 +140,7 @@ int main(int argc, char* argv[]) {
         curr_line = curr_line->next_cache_line;
         free(temp);
     }
+    
     fclose(fp);
 
     /* Output the hit and miss statistics for the autograder */
