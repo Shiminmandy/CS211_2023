@@ -44,6 +44,7 @@ void accessData (
 
     // Cache hit
     cache_line_t* curr_line = cache->front;
+    // only 1 set, 16 lines inside, while loop find cache hit
     while ( curr_line != NULL ) {
         if ( curr_line->tag == tag ) {
             (*hit_count)++;
