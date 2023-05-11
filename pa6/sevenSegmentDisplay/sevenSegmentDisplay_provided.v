@@ -125,7 +125,7 @@ assign d_1_or_not_0 = numeral_bit[1] | not_numeral_bit_0;
 assign d_3_or_not_2  = numeral_bit[3] | not_numeral_bit_2;
 assign d_1_or_0  = numeral_bit[1] | numeral_bit[0];
 assign d_not_1_or_not_0 = not_numeral_bit_1 | not_numeral_bit_0;
-assign d_not_3_or_2 = not_numeral_bit_3 | numeral_bit[2];
+assign d_not_3_or_2 = numeral_bit[3] | numeral_bit[2];
 
 assign d_maxterm_01 = d_3_or_2 | d_1_or_not_0;
 assign d_maxterm_04 = d_3_or_not_2 | d_1_or_0;
